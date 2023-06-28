@@ -13,13 +13,13 @@ import modelo.Valor;
  * @author Kevin
  */
 public class modeloTablaAle extends AbstractTableModel{
-  ListaEnlazada<Valor> datos = new ListaEnlazada<>();
+  ListaEnlazada<Integer> datos = new ListaEnlazada<>();
 
-    public ListaEnlazada<Valor> getDatos() {
+    public ListaEnlazada<Integer> getDatos() {
         return datos;
     }
 
-    public void setDatos(ListaEnlazada<Valor> datos) {
+    public void setDatos(ListaEnlazada<Integer> datos) {
         this.datos = datos;
     }
     
@@ -36,14 +36,14 @@ public class modeloTablaAle extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int arg0, int arg1) {
-        Valor a = null;
+        Integer a = null;
         try{
             a = datos.get(arg0);
         }catch(Exception e){
             
         }
         switch(arg1){
-            case 0: return a.getDatos();
+            case 0: return a.toString();
             
             default: return null;
         }

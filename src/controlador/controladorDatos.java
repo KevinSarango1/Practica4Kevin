@@ -22,8 +22,8 @@ public class controladorDatos {
     public controladorDatos() {
         valor = new ListaEnlazada<>();
         Random numero = new Random();
-        for (int i = 0; i < 100; i++) {
-            valor.insertar(numero.nextInt(1000));
+        for (int i = 0; i < 20000; i++) {
+            valor.insertar(numero.nextInt(30000));
         }
 
     }

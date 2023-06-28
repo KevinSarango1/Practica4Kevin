@@ -6,10 +6,7 @@ package vista;
 
 import controlador.controladorDatos;
 import controller.ed.lista.ListaEnlazada;
-import controller.ed.lista.exception.EmptyException;
-import controller.ed.lista.exception.PositionException;
 import javax.swing.JOptionPane;
-import modelo.Valor;
 import vista.modeloTabla.modeloTablaAle;
 
 /**
@@ -39,73 +36,79 @@ public class FrmAleatorio extends javax.swing.JDialog {
         tblTabla.setModel(aleatorio);
         tblTabla.updateUI();
     }
+    private void ordenarMerge(){
+    int criterio = cbxOrden.getSelectedIndex();
 
-    private void ordenarMerge() {
-        String criterio = cbxOrden.getSelectedItem().toString();
-        if (criterio.equalsIgnoreCase("Ascendente")) {
-            try {
-                long startTime = System.currentTimeMillis();
-                aleatorio.setDatos(valores.mergeSort(valores.getValor(), ASCENDENTE));
-                tblTabla.setModel(aleatorio);
-                tblTabla.updateUI();
-                long finalTime = System.currentTimeMillis() - startTime;
-                JOptionPane.showMessageDialog(null, "El tiempo de ejecución del MergeSort en forma ascendente es de: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-            }
-        }
-        if (criterio.equalsIgnoreCase("Descendente")) {
-            try {
-                long startTime = System.currentTimeMillis();
-                aleatorio.setDatos(valores.mergeSort(valores.getValor(), DESCENDENTE));
-                tblTabla.setModel(aleatorio);
-                tblTabla.updateUI();
-                long finalTime = System.currentTimeMillis() - startTime;
-                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Merge es: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-            }
-        }
-    }
+    long startTime = System.currentTimeMillis();
+    controladorDatos datos = new controladorDatos();
+    ListaEnlazada<Integer> lista = datos.getValor();
+    aleatorio.setDatos(valores.ordenarMerge(lista, criterio));
+    tblTabla.setModel(aleatorio);
+    tblTabla.updateUI();
+    long finalTime = System.currentTimeMillis() - startTime;
+    JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Merge es: " + finalTime + " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+    }    
+
+////    private void ordenarMerge() {
+////        String criterio = cbxOrden.getSelectedItem().toString();
+////        if (criterio.equalsIgnoreCase("Ascendente")) {
+////            try {
+////                long startTime = System.currentTimeMillis();
+////                aleatorio.setDatos(valores.mergeSort(valores.getValor(), ASCENDENTE));
+////                tblTabla.setModel(aleatorio);
+////                tblTabla.updateUI();
+////                long finalTime = System.currentTimeMillis() - startTime;
+////                JOptionPane.showMessageDialog(null, "El tiempo de ejecución del MergeSort en forma ascendente es de: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
+////            } catch (Exception e) {
+////            }
+////        }
+////        if (criterio.equalsIgnoreCase("Descendente")) {
+////            try {
+////                long startTime = System.currentTimeMillis();
+////                aleatorio.setDatos(valores.mergeSort(valores.getValor(), DESCENDENTE));
+////                tblTabla.setModel(aleatorio);
+////                tblTabla.updateUI();
+////                long finalTime = System.currentTimeMillis() - startTime;
+////                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Merge es: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
+////            } catch (Exception e) {
+////            }
+////        }
+////    }
 
     private void ordenarQuick() {
 
-        String criterio = cbxOrden.getSelectedItem().toString();
-        if (criterio.equalsIgnoreCase("Ascendente")) {
-            try {
-                long startTime = System.currentTimeMillis();
-
-                controladorDatos datos = new controladorDatos();
-                ListaEnlazada<Valor> lista = datos.getValor();
-                ListaEnlazada<Valor> listaOrdenada = datos.quickSort(lista, ASCENDENTE);
-
-                // Actualizar la tabla con la lista ordenada
-                aleatorio.setDatos(listaOrdenada);
-                tblTabla.setModel(aleatorio);
-                tblTabla.updateUI();
-                long finalTime = System.currentTimeMillis() - startTime;
-                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Quick es: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (EmptyException | PositionException e) {
-                // Manejar la excepción apropiadamente
-            }
-        }
-        if (criterio.equalsIgnoreCase("Descendente")) {
-            try {
-                long startTime = System.currentTimeMillis();
-                controladorDatos datos = new controladorDatos();
-                ListaEnlazada<Valor> lista = datos.getValor();
-                ListaEnlazada<Valor> listaOrdenada = datos.quickSort(lista, DESCENDENTE);
-
-                // Actualizar la tabla con la lista ordenada
-                aleatorio.setDatos(listaOrdenada);
-                tblTabla.setModel(aleatorio);
-                tblTabla.updateUI();
-                long finalTime = System.currentTimeMillis() - startTime;
-                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Quick es: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (EmptyException | PositionException e) {
-                // Manejar la excepción apropiadamente
-            }
-        }
+        int criterio = cbxOrden.getSelectedIndex();
+        
+            long startTime = System.currentTimeMillis(); // Manejar la excepción apropiadamente
+            controladorDatos datos = new controladorDatos();
+            ListaEnlazada<Integer> lista = datos.getValor();
+            //ListaEnlazada<Valor> listaOrdenada = datos.quickSort(lista, ASCENDENTE);
+            // Actualizar la tabla con la lista ordenada
+            aleatorio.setDatos(valores.ordenar(lista, criterio));
+            tblTabla.setModel(aleatorio);
+            tblTabla.updateUI();
+            long finalTime = System.currentTimeMillis() - startTime;
+            JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Quick es: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
+  
+//        if (criterio.equalsIgnoreCase("Descendente")) {
+//            try {
+//                long startTime = System.currentTimeMillis();
+//                controladorDatos datos = new controladorDatos();
+//                ListaEnlazada<Valor> lista = datos.getValor();
+//                ListaEnlazada<Valor> listaOrdenada = datos.quickSort(lista, DESCENDENTE);
+//
+//                // Actualizar la tabla con la lista ordenada
+//                aleatorio.setDatos(listaOrdenada);
+//                tblTabla.setModel(aleatorio);
+//                tblTabla.updateUI();
+//                long finalTime = System.currentTimeMillis() - startTime;
+//                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Quick es: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
+//
+//            } catch (EmptyException | PositionException e) {
+//                // Manejar la excepción apropiadamente
+//            }
+//        }
     }
 
     /**
@@ -153,6 +156,11 @@ public class FrmAleatorio extends javax.swing.JDialog {
         jLabel3.setText("Tipo de ordenacion");
 
         cbxOrden.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ascendente", "Descendente" }));
+        cbxOrden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxOrdenActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -256,6 +264,10 @@ public class FrmAleatorio extends javax.swing.JDialog {
     private void btnQuickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuickActionPerformed
         ordenarQuick();
     }//GEN-LAST:event_btnQuickActionPerformed
+
+    private void cbxOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxOrdenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxOrdenActionPerformed
 
     /**
      * @param args the command line arguments
