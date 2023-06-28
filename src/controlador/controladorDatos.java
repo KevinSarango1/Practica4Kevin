@@ -16,28 +16,26 @@ import modelo.Valor;
  */
 public class controladorDatos {
 
-    private ListaEnlazada<Valor> valor;
+    private ListaEnlazada<Integer> valor;
     private Valor datos;
 
     public controladorDatos() {
         valor = new ListaEnlazada<>();
         Random numero = new Random();
-        for (int i = 0; i < 20000; i++) {
-            datos = new Valor();
-            datos.setDatos(numero.nextInt(30000));
-            valor.insertar(datos);
+        for (int i = 0; i < 100; i++) {
+            valor.insertar(numero.nextInt(1000));
         }
 
     }
 
-    public ListaEnlazada<Valor> getValor() {
+    public ListaEnlazada<Integer> getValor() {
         if (valor == null) {
             valor = new ListaEnlazada<>();
         }
         return valor;
     }
 
-    public void setValor(ListaEnlazada<Valor> valor) {
+    public void setValor(ListaEnlazada<Integer> valor) {
         this.valor = valor;
     }
 
@@ -49,141 +47,121 @@ public class controladorDatos {
         this.datos = datos;
     }
 
-    public ListaEnlazada<Valor> quickSort(ListaEnlazada<Valor> lista, Integer tipo) throws EmptyException, PositionException {
-        ListaEnlazada<Valor> listaOrdenada = new ListaEnlazada<>();
-        quickSortRecursivo(lista, 0, lista.getSize() - 1, listaOrdenada, tipo);
-        return listaOrdenada;
+    public ListaEnlazada<Integer> ordenar(ListaEnlazada<Integer> lista, int tipo) {
+
+        Integer[] arregloLista = lista.toArray();
+
+        quickSort(arregloLista, 0, arregloLista.length - 1, tipo);
+
+        return lista.toList(arregloLista);
     }
 
-    private void quickSortRecursivo(ListaEnlazada<Valor> lista, int inicio, int fin, ListaEnlazada<Valor> listaOrdenada, Integer tipo) throws EmptyException, PositionException {
-        if (inicio < fin) {
-            int indiceParticion = particion(lista, inicio, fin, tipo);
-            quickSortRecursivo(lista, inicio, indiceParticion - 1, listaOrdenada, tipo);
-            listaOrdenada.insertar(lista.get(indiceParticion));
-            quickSortRecursivo(lista, indiceParticion + 1, fin, listaOrdenada, tipo);
-        } else if (inicio == fin) {
-            listaOrdenada.insertar(lista.get(inicio));
+    private void swap(Integer[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    // This function takes last element as pivot,
+    // places the pivot element at its correct position
+    // in sorted array, and places all smaller to left
+    // of pivot and all greater elements to right of pivot
+    private int partition(Integer[] arr, int low, int high, int tipo) {
+        // Choosing the pivot
+        int pivot = arr[high];
+
+        // Index of smaller element and indicates
+        // the right position of pivot found so far
+        int i = (low - 1);
+
+        for (int j = low; j <= high - 1; j++) {
+
+            // If current element is smaller than the pivot
+            if (tipo == 0 ? arr[j] < pivot : arr[j] > pivot) {
+
+                // Increment index of smaller element
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, high);
+        return (i + 1);
+    }
+
+    // The main function that implements QuickSort
+    // arr[] --> Array to be sorted,
+    // low --> Starting index,
+    // high --> Ending index
+    private void quickSort(Integer[] arr, int low, int high, int tipo) {
+        if (low < high) {
+
+            // pi is partitioning index, arr[p]
+            // is now at right place
+            int pi = partition(arr, low, high, tipo);
+
+            // Separately sort elements before
+            // partition and after partition
+            quickSort(arr, low, pi - 1, tipo);
+            quickSort(arr, pi + 1, high, tipo);
         }
     }
 
-    private int particion(ListaEnlazada<Valor> lista, int inicio, int fin, Integer tipo) throws EmptyException, PositionException {
-        Valor pivot = lista.get(fin); // Elegir el último elemento como pivote
-        int i = inicio - 1;
+    public ListaEnlazada<Integer> ordenarMerge(ListaEnlazada<Integer> lista, int tipo) {
+        Integer[] arregloLista = lista.toArray();
+        mergeSort(arregloLista, 0, arregloLista.length - 1, tipo);
+        return lista.toList(arregloLista);
+    }
 
-        for (int j = inicio; j <= fin - 1; j++) {
-            if (tipo == 0) {
-                if (lista.get(j).getDatos() <= pivot.getDatos()) {
-                    i++;
-                    swap(lista, i, j);
-                }
+    private void mergeSort(Integer[] arr, int low, int high, int tipo) {
+        if (low < high) {
+            int mid = (low + high) / 2;
+            mergeSort(arr, low, mid, tipo);
+            mergeSort(arr, mid + 1, high, tipo);
+            merge(arr, low, mid, high, tipo);
+        }
+    }
+
+    private void merge(Integer[] arr, int low, int mid, int high, int tipo) {
+        int leftLength = mid - low + 1;
+        int rightLength = high - mid;
+
+        Integer[] leftArray = new Integer[leftLength];
+        Integer[] rightArray = new Integer[rightLength];
+
+        for (int i = 0; i < leftLength; i++) {
+            leftArray[i] = arr[low + i];
+        }
+
+        for (int j = 0; j < rightLength; j++) {
+            rightArray[j] = arr[mid + 1 + j];
+        }
+
+        int i = 0;
+        int j = 0;
+        int k = low;
+
+        while (i < leftLength && j < rightLength) {
+            if (tipo == 0 ? leftArray[i] <= rightArray[j] : leftArray[i] >= rightArray[j]) {
+                arr[k] = leftArray[i];
+                i++;
             } else {
-                if (lista.get(j).getDatos() >= pivot.getDatos()) {
-                    i++;
-                    swap(lista, i, j);
-                }
+                arr[k] = rightArray[j];
+                j++;
             }
+            k++;
         }
 
-        swap(lista, i + 1, fin);
-        return i + 1;
-    }
-
-    private void swap(ListaEnlazada<Valor> lista, int indice1, int indice2) throws EmptyException, PositionException {
-        Valor temp = lista.get(indice1);
-        lista.update(indice1, lista.get(indice2));
-        lista.update(indice2, temp);
-    }
-
-    public ListaEnlazada<Valor> mergeSort(ListaEnlazada<Valor> lista, Integer tipo) throws EmptyException, PositionException {
-        if (lista.getSize() <= 1) {
-            return null;
+        while (i < leftLength) {
+            arr[k] = leftArray[i];
+            i++;
+            k++;
         }
 
-        // Dividir la lista en dos mitades
-        ListaEnlazada<Valor> leftHalf = new ListaEnlazada<>();
-        ListaEnlazada<Valor> rightHalf = new ListaEnlazada<>();
-        splitList(lista, leftHalf, rightHalf);
-
-        // Recursivamente ordenar las mitades
-        mergeSort(leftHalf, tipo);
-        mergeSort(rightHalf, tipo);
-
-        // Combinar las mitades ordenadas
-        lista = merge(lista, leftHalf, rightHalf, tipo);
-        return lista;
-    }
-
-    private void splitList(ListaEnlazada<Valor> lista, ListaEnlazada<Valor> leftHalf, ListaEnlazada<Valor> rightHalf) throws EmptyException, PositionException {
-        int size = lista.getSize();
-        int middle = size / 2;
-
-        for (int i = 0; i < middle; i++) {
-            leftHalf.insertar(lista.delete(0));
+        while (j < rightLength) {
+            arr[k] = rightArray[j];
+            j++;
+            k++;
         }
-
-        for (int i = middle; i < size; i++) {
-            rightHalf.insertar(lista.delete(0));
-        }
-    }
-
-    private ListaEnlazada<Valor> merge(ListaEnlazada<Valor> lista, ListaEnlazada<Valor> leftHalf, ListaEnlazada<Valor> rightHalf, Integer tipo) {
-        int leftSize = leftHalf.getSize();
-        int rightSize = rightHalf.getSize();
-
-        int leftIndex = 0;
-        int rightIndex = 0;
-        int listIndex = 0;
-
-        while (leftIndex < leftSize && rightIndex < rightSize) {
-            try {
-                Valor leftValue = leftHalf.get(leftIndex);
-                Valor rightValue = rightHalf.get(rightIndex);
-                if (tipo == 0) {
-                    if (leftValue.getDatos() <= rightValue.getDatos()) {
-                        lista.insertar(leftValue);
-                        leftIndex++;
-                    } else {
-                        lista.insertar(rightValue);
-                        rightIndex++;
-                    }
-                } else {
-                    if (leftValue.getDatos() >= rightValue.getDatos()) {
-                        lista.insertar(leftValue);
-                        leftIndex++;
-                    } else {
-                        lista.insertar(rightValue);
-                        rightIndex++;
-                    }
-                }
-
-                listIndex++;
-            } catch (EmptyException | PositionException e) {
-                e.printStackTrace();
-            }
-        }
-
-        while (leftIndex < leftSize) {
-            try {
-                Valor value = leftHalf.get(leftIndex);
-                lista.insertar(value);
-                leftIndex++;
-                listIndex++;
-            } catch (EmptyException | PositionException e) {
-                e.printStackTrace();
-            }
-        }
-
-        while (rightIndex < rightSize) {
-            try {
-                Valor value = rightHalf.get(rightIndex);
-                lista.insertar(value);
-                rightIndex++;
-                listIndex++;
-            } catch (EmptyException | PositionException e) {
-                e.printStackTrace();
-            }
-        }
-        return lista;
     }
 
 }
