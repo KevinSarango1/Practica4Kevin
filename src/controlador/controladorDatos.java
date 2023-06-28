@@ -12,7 +12,7 @@ import modelo.Valor;
 
 /**
  *
- * @author DELL
+ * @author Kevin
  */
 public class controladorDatos {
 

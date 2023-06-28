@@ -49,7 +49,7 @@ public class FrmAleatorio extends javax.swing.JDialog {
                 tblTabla.setModel(aleatorio);
                 tblTabla.updateUI();
                 long finalTime = System.currentTimeMillis() - startTime;
-                JOptionPane.showMessageDialog(null, "El tiempo de ejecución del MergeSort en forma ascendente es de: " + finalTime+ " segundos", "OK", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El tiempo de ejecución del MergeSort en forma ascendente es de: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
             }
         }
@@ -60,7 +60,7 @@ public class FrmAleatorio extends javax.swing.JDialog {
                 tblTabla.setModel(aleatorio);
                 tblTabla.updateUI();
                 long finalTime = System.currentTimeMillis() - startTime;
-                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Merge es: " + finalTime+ " segundos", "OK", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Merge es: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
             }
         }
@@ -82,7 +82,7 @@ public class FrmAleatorio extends javax.swing.JDialog {
                 tblTabla.setModel(aleatorio);
                 tblTabla.updateUI();
                 long finalTime = System.currentTimeMillis() - startTime;
-                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Quick es: " + finalTime+ " segundos", "OK", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Quick es: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (EmptyException | PositionException e) {
                 // Manejar la excepción apropiadamente
@@ -100,7 +100,7 @@ public class FrmAleatorio extends javax.swing.JDialog {
                 tblTabla.setModel(aleatorio);
                 tblTabla.updateUI();
                 long finalTime = System.currentTimeMillis() - startTime;
-                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Quick es: " + finalTime+ " segundos", "OK", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Quick es: " + finalTime+ " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (EmptyException | PositionException e) {
                 // Manejar la excepción apropiadamente
