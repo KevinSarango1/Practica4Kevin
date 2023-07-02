@@ -5,8 +5,6 @@
 package controlador;
 
 import controller.ed.lista.ListaEnlazada;
-import controller.ed.lista.exception.EmptyException;
-import controller.ed.lista.exception.PositionException;
 import java.util.Random;
 import modelo.Valor;
 
