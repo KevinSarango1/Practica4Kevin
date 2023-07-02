@@ -6,7 +6,6 @@ package vista.modeloTabla;
 
 import controller.ed.lista.ListaEnlazada;
 import javax.swing.table.AbstractTableModel;
-import modelo.Valor;
 
 /**
  *

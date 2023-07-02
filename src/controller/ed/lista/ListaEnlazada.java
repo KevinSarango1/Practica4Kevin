@@ -7,9 +7,11 @@ package controller.ed.lista;
 
 import controller.ed.lista.exception.EmptyException;
 import controller.ed.lista.exception.PositionException;
-import java.util.Iterator;
-
-public class ListaEnlazada<E> implements Iterable<E> {
+/**
+ *
+ * @author Kevin
+ */
+public class ListaEnlazada<E> {
 
     private NodoLista<E> cabecera;
     private Integer size = 0;
@@ -49,24 +51,26 @@ public class ListaEnlazada<E> implements Iterable<E> {
         }
         return true;
     }
+
     public void invertir() {
-    if (estaVacia() || size == 1) {
-        return;
+        if (estaVacia() || size == 1) {
+            return;
+        }
+
+        NodoLista<E> previo = null;
+        NodoLista<E> actual = cabecera;
+        NodoLista<E> siguiente = null;
+
+        while (actual != null) {
+            siguiente = actual.getSig();
+            actual.setSig(previo);
+            previo = actual;
+            actual = siguiente;
+        }
+
+        cabecera = previo;
     }
 
-    NodoLista<E> previo = null;
-    NodoLista<E> actual = cabecera;
-    NodoLista<E> siguiente = null;
-
-    while (actual != null) {
-        siguiente = actual.getSig();
-        actual.setSig(previo);
-        previo = actual;
-        actual = siguiente;
-    }
-
-    cabecera = previo;
-}
     public void agregar(E dato) {
         NodoLista<E> nuevo = new NodoLista<>(null, dato);
         if (estaVacia()) {
@@ -93,8 +97,9 @@ public class ListaEnlazada<E> implements Iterable<E> {
         } else {
             NodoLista<E> aux = cabecera;
             System.out.println("----------Lista------------");
-            for (E dato : this) {
-                System.out.println(dato);
+            while (aux != null) {
+                System.out.println(aux.getInfo());
+                aux = aux.getSig();
             }
             System.out.println("----------Lista fin--------------");
         }
@@ -236,31 +241,4 @@ public class ListaEnlazada<E> implements Iterable<E> {
     public void insertarAlFinal(E dato) {
         insertar(dato);
     }
-    
-
-    @Override
-    public Iterator<E> iterator() {
-        return new ListaIterator();
-    }
-
-    private class ListaIterator implements Iterator<E> {
-        private NodoLista<E> nodoActual;
-
-        public ListaIterator() {
-            nodoActual = cabecera;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return nodoActual != null;
-        }
-
-        @Override
-        public E next() {
-            E dato = nodoActual.getInfo();
-            nodoActual = nodoActual.getSig();
-            return dato;
-        }
-    }
 }
-

@@ -4,9 +4,6 @@
  */
 package vista;
 
-import controller.ed.lista.ListaEnlazada;
-import java.util.Random;
-import modelo.Valor;
 
 /**
  *

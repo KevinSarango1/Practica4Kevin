@@ -47,7 +47,7 @@ public class FrmAleatorio extends javax.swing.JDialog {
     tblTabla.updateUI();
     long finalTime = System.currentTimeMillis() - startTime;
     JOptionPane.showMessageDialog(null, "Tiempo de ejecución en Merge es: " + finalTime + " milisegundos", "OK", JOptionPane.INFORMATION_MESSAGE);
-
+    
     }    
 
 ////    private void ordenarMerge() {

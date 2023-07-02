@@ -6,7 +6,7 @@ package practica4kevin;
 
 /**
  *
- * @author DELL
+ * @author Kevin
  */
 public class Practica4Kevin {
 
